@@ -1,7 +1,6 @@
 #!/usr/bin/env ts-node
 
-import { doesNotThrow } from "assert";
-import { exit, uptime } from "process";
+import { exit } from "process";
 
 const fs = require("fs/promises");
 
