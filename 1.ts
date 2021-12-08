@@ -1,6 +1,6 @@
 #!/usr/bin/env ts-node
 
-const fs = require("fs/promises");
+import { loadFromFile } from "./lib";
 
 async function main() {
   const lines = await loadFromFile("1-input.txt");
@@ -26,12 +26,6 @@ function partTwo(measurements: number[]) {
     sums.push(sum);
   }
   partOne(sums);
-}
-
-async function loadFromFile(path: string): Promise<string[]> {
-  const text = await fs.readFile(path, { encoding: "utf-8" });
-  const lines = text.split("\n").filter((l: string) => l.length > 0);
-  return lines;
 }
 
 function parseMeasurements(lines: string[]): number[] {

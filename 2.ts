@@ -1,8 +1,7 @@
 #!/usr/bin/env ts-node
 
 import { exit } from "process";
-
-const fs = require("fs/promises");
+import { loadFromFile } from "./lib";
 
 async function main() {
   const lines = await loadFromFile("2-input.txt");
@@ -43,12 +42,6 @@ function partTwo(commands: Command[]) {
     }
   });
   console.log(depth * position);
-}
-
-async function loadFromFile(path: string): Promise<string[]> {
-  const text = await fs.readFile(path, { encoding: "utf-8" });
-  const lines = text.split("\n").filter((l: string) => l.length > 0);
-  return lines;
 }
 
 enum Direction {
