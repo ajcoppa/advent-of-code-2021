@@ -1,0 +1,11 @@
+{
+  "name": "advent-of-code-2021",
+  "version": "0.0.1",
+  "main": "index.js",
+  "repository": "git@github.com:ajcoppa/advent-of-code-2021.git",
+  "author": "AJ Coppa <aj.coppa@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^16.11.12"
+  }
+}
