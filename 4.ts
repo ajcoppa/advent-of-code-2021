@@ -19,7 +19,15 @@ function partOne(game: BingoGame) {
   }
 }
 
-function partTwo(game: BingoGame) {}
+function partTwo(game: BingoGame) {
+  const lastWinner = findLastWinner(game);
+  if (lastWinner) {
+    const score = scoreCard(lastWinner);
+    console.log(score);
+  } else {
+    console.log("no winner :(");
+  }
+}
 
 interface BingoGame {
   numbers: number[];
@@ -121,6 +129,35 @@ function findFirstWinner(game: BingoGame): BingoCard | null {
     if (firstWinner) {
       firstWinner.marks = sequenceMap;
       return firstWinner;
+    }
+  }
+  return null;
+}
+
+function findLastWinner(game: BingoGame): BingoCard | null {
+  const { cards, numbers } = game;
+  // transform numbers into arrays of every initial sequence they contain
+  // e.g. [1, 2, 3] => [[1], [1, 2], [1, 2, 3]]
+  const sequences = numbers.map((n, i) => numbers.slice(0, i));
+
+  let cardsLeft: BingoCard[] = cards;
+  let lastCard: BingoCard | null = null;
+  for (let i = 0; i < sequences.length; i++) {
+    const sequence = sequences[i];
+    // transform sequence into map of number => boolean for fast lookup
+    const sequenceMap = sequence.reduce((map, n) => {
+      map.set(n, true);
+      return map;
+    }, new Map<number, boolean>());
+
+    if (cardsLeft.length === 1) {
+      lastCard = cardsLeft[0];
+    }
+    cardsLeft = cardsLeft.filter((c) => !cardIsAWinner(sequenceMap, c));
+
+    if (cardsLeft.length === 0 && lastCard) {
+      lastCard.marks = sequenceMap;
+      return lastCard;
     }
   }
   return null;
