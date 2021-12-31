@@ -5,8 +5,9 @@ import { loadFromFile } from "./lib";
 async function main() {
   const lines = await loadFromFile("11-input.txt");
   const octopi = parseLines(lines);
+  const octopiCopy = JSON.parse(JSON.stringify(octopi));
   partOne(octopi);
-  partTwo(octopi);
+  partTwo(octopiCopy);
 }
 
 function partOne(octopi: number[][]) {
@@ -17,7 +18,17 @@ function partOne(octopi: number[][]) {
   console.log(flashTotal);
 }
 
-function partTwo(octopi: number[][]) {}
+function partTwo(octopi: number[][]) {
+  for (let i = 1; i <= 1000; i++) {
+    const length = octopi.length;
+    const height = octopi[0].length;
+    const flashCount = tick(octopi);
+    if (flashCount === length * height) {
+      console.log(i);
+      return;
+    }
+  }
+}
 
 function tick(octopi: number[][]): number {
   const flashMap: boolean[][] = [];
@@ -92,17 +103,6 @@ function getAdjacentCoords(
   return modifications.filter((coord) =>
     inBounds(coord.x, coord.y, xMax, yMax)
   );
-}
-
-function printOctopi(octopi: number[][]): void {
-  for (let i = 0; i < octopi.length; i++) {
-    const row = octopi[i];
-    for (let j = 0; j < row.length; j++) {
-      process.stdout.write(`${octopi[i][j]}`);
-    }
-    process.stdout.write("\n");
-  }
-  process.stdout.write("\n");
 }
 
 function inBounds(x: number, y: number, xMax: number, yMax: number): boolean {
